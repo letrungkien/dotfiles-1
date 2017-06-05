@@ -45,8 +45,9 @@ set notimeout
 
 " highlight vertical column of cursor
 au WinLeave * set nocursorline nocursorcolumn
-au WinEnter * set cursorline
+au WinEnter * set cursorline cursorcolumn
 set cursorline
+set cursorcolumn
 
 "key to insert mode with paste using F2 key
 map <F2> :set paste<CR>i
@@ -232,17 +233,17 @@ if filereadable($HOME . "/.vimrc.local")
 endif
 
 " Remove trailing whitespace on save for ruby files.
-function! s:RemoveTrailingWhitespaces()
+"function! s:RemoveTrailingWhitespaces()
   "Save last cursor position
-  let l = line(".")
-  let c = col(".")
+"  let l = line(".")
+"  let c = col(".")
 
-  %s/\s\+$//ge
+"  %s/\s\+$//ge
 
-  call cursor(l,c)
-endfunction
+"  call cursor(l,c)
+"endfunction
 
-au BufWritePre * :call <SID>RemoveTrailingWhitespaces()
+"au BufWritePre * :call <SID>RemoveTrailingWhitespaces()
 
 " cmd n, cmd p for fwd/backward in search
 map <C-n> :cn<CR>

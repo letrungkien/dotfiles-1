@@ -3,11 +3,11 @@
 [color]
   ui = auto
 [alias]
-  aa = add --all
-  ap = add --patch
-  ca = commit --amend
+  au = add -u
+  cane = commit --amend --no-edit
   ci = commit -v
   co = checkout
+  lol = log --oneline
   create-branch = !sh -c 'git push origin HEAD:refs/heads/$1 && git fetch origin && git branch --track $1 origin/$1 && cd . && git checkout $1' -
   delete-branch = !sh -c 'git push origin :refs/heads/$1 && git remote prune origin && git branch -D $1' -
   merge-branch = !git checkout master && git merge @{-1}
@@ -24,8 +24,8 @@
 [commit]
 	template = /Users/mike/.gitmessage
 [user]
-  name = Mike Coutermarsh
-  email = coutermarsh.mike@gmail.com
+  name = Le Trung Kien
+  email = ltk.business@gmail.com
 [diff]
     tool = Kaleidoscope
 [difftool "Kaleidoscope"]
@@ -35,7 +35,7 @@
   trustExitCode = true
 [difftool "sourcetree"]
 	cmd = /usr/local/bin/ksdiff -w \"$LOCAL\" \"$REMOTE\"
-	path = 
+	path =
 [mergetool "sourcetree"]
 	cmd = /usr/local/bin/ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
 	trustExitCode = true
