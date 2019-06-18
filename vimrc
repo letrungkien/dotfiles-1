@@ -1,3 +1,5 @@
+"unlet! skip_defaults_vim    
+"source /usr/local/share/vim/vim80/defaults.vim
 set shell=/bin/bash
 runtime macros/matchit.vim
 " use old regext engine. speed up ruby syntax highlighting
@@ -12,14 +14,49 @@ let $PATH='/usr/local/bin:' . $PATH
 
 :au FocusLost * :wa "Save on focus lost
 
+" Fold method
+"set foldmethod=syntax
+"set foldlevel=1
+"set foldclose=all
+
 " Sessions
-let g:session_autoload = 'no'
+"let g:session_autoload = 'no'
+
+" auto save+restore current sessions on quit and reopen
+function! MakeSession()
+  let b:sessiondir = $HOME . "/.vim/sessions" . getcwd()
+  if (filewritable(b:sessiondir) != 2)
+    exe 'silent !mkdir -p ' b:sessiondir
+    redraw!
+  endif
+  let b:filename = b:sessiondir . '/session.vim'
+  exe "mksession! " . b:filename
+endfunction
+
+function! LoadSession()
+  let b:sessiondir = $HOME . "/.vim/sessions" . getcwd()
+  let b:sessionfile = b:sessiondir . "/session.vim"
+  if (filereadable(b:sessionfile))
+    exe 'source ' b:sessionfile
+  else
+    echo "No session loaded."
+  endif
+endfunction
+
+if argc() == 0
+  au VimEnter * nested :call LoadSession()
+  au VimLeave * :call MakeSession()
+end
+
+" middle of line
+map mm :call cursor(0, virtcol('$')/2)<CR>
 
 " Leader Mappings
 map <Space> <leader>
 map <Leader>w :update<CR>
 map <Leader>q :qall<CR>
 map <Leader>gs :Gstatus<CR>
+map <Leader>gd :Gdiff<CR>
 map <Leader>gc :Gcommit<CR>
 map <Leader>gp :Gpush<CR>
 "
@@ -29,6 +66,7 @@ map <Leader>s :call RunNearestSpec()<CR>
 map <Leader>l :call RunLastSpec()<CR>
 map <Leader>a :call RunAllSpecs()<CR>
 
+set colorcolumn=120
 
 " Toggle nerdtree with F10
 map <F10> :NERDTreeToggle<CR>
@@ -161,6 +199,9 @@ set encoding=utf-8
 " Highlight line number of where cursor currently is
 hi CursorLineNr guifg=#050505
 
+" \e to open current directory
+map <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
+
 " Numbers
 set number
 set numberwidth=5
@@ -181,7 +222,7 @@ set undoreload=10000
 :xnoremap <expr> Y (v:register ==# '"' ? '"+' : '') . 'Y'
 
 " convert hash rockets
-nmap <leader>rh :%s/\v:(\w+) \=\>/\1:/g<cr>
+nmap <leader>rh :%s/\v:(\w+)\s*\=\>/\1:/g<cr>
 
 " Tab completion
 " will insert tab at beginning of line,
@@ -227,6 +268,28 @@ nnoremap <C-l> <C-w>l
 let g:syntastic_ruby_checkers = ['mri']
 let g:syntastic_enable_highlighting=0
 
+" es-lint
+"set statusline+=%#warningmsg#
+"set statusline+=%{SyntasticStatuslineFlag()}
+"set statusline+=%*
+"let g:syntastic_always_populate_loc_list = 1
+"let g:syntastic_auto_loc_list = 1
+"let g:syntastic_check_on_open = 1
+"let g:syntastic_check_on_wq = 0
+"let g:syntastic_javascript_checkers = ['eslint']
+"let g:syntastic_javascript_eslint_exe = 'npm run lint --'
+"let g:syntastic_javascript_eslint_exe='$(npm bin)/eslint'
+
+"augroup FiletypeGroup
+"  autocmd!
+"  au BufNewFile,BufRead *.jsx set filetype=javascript.jsx
+"augroup END
+
+"let g:ale_linters = {'jsx': ['eslint'], 'javascript': ['eslint']}
+"let g:ale_fixers = {'javascript': ['eslint'], 'jsx': ['eslint']}
+"let g:ale_lint_on_text_changed = 'never'
+"let g:ale_fix_on_save = 1
+
 " Local config
 if filereadable($HOME . "/.vimrc.local")
   source ~/.vimrc.local
@@ -250,7 +313,25 @@ map <C-n> :cn<CR>
 map <C-p> :cp<CR>
 
 " Easy navigation between splits. Instead of ctrl-w + j. Just ctrl-j
-nnoremap <C-J> <C-W><C-J>
-nnoremap <C-K> <C-W><C-K>
-nnoremap <C-L> <C-W><C-L>
-nnoremap <C-H> <C-W><C-H>
+"nnoremap <C-J> <C-W><C-J>
+"nnoremap <C-K> <C-W><C-K>
+"nnoremap <C-L> <C-W><C-L>
+"nnoremap <C-H> <C-W><C-H>
+
+" Bubble single lines
+nmap <C-S-K> ddkP==j==k
+nmap <C-S-J> ddpk==j==
+
+" copy word under cursor
+nmap <Leader>y yiw
+
+" replace word under cursor and still keep the yanked
+nmap <Leader>p viwpyiw
+
+augroup Mkdir
+  autocmd!
+  autocmd BufWritePre *
+    \ if !isdirectory(expand("<afile>:p:h")) |
+        \ call mkdir(expand("<afile>:p:h"), "p") |
+    \ endif
+augroup END

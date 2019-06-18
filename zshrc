@@ -47,3 +47,6 @@ export PATH=".git/safe/../../bin:$PATH"
 if (( $+commands[boot2docker] )) ; then
   $(boot2docker shellinit 2>/dev/null)
 fi
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"
