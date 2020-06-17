@@ -14,7 +14,8 @@ Bundle 'mustache/vim-mustache-handlebars'
 Bundle 'blarghmatey/split-expander'
 "Bundle 'rking/ag.vim'
 Bundle 'sjl/vitality.vim'
-Bundle 'kien/ctrlp.vim'
+"Bundle 'kien/ctrlp.vim'
+Bundle 'ctrlpvim/ctrlp.vim'
 Bundle 'thoughtbot/vim-rspec'
 Bundle 'tpope/vim-bundler'
 Bundle 'airblade/vim-gitgutter'
@@ -25,12 +26,12 @@ Bundle 'tmhedberg/matchit'
 Bundle 'kana/vim-textobj-user'
 Bundle 'nelstrom/vim-textobj-rubyblock'
 Bundle 'vim-scripts/tComment'
-Bundle 'scrooloose/nerdtree'
+"Bundle 'scrooloose/nerdtree'
 Bundle "MarcWeber/vim-addon-mw-utils"
 Bundle "tomtom/tlib_vim"
 Bundle "skwp/greplace.vim"
 Bundle "vim-ruby/vim-ruby"
-Bundle "elixir-lang/vim-elixir"
+"Bundle 'elixir-lang/vim-elixir'
 Bundle "tpope/vim-haml"
 Bundle 'Lokaltog/vim-easymotion'
 Bundle "dkprice/vim-easygrep"
@@ -49,5 +50,7 @@ Bundle 'kien/tabman.vim'
 "Bundle 'w0rp/ale'
 Bundle 'iamcco/markdown-preview.vim'
 Bundle 'brookhong/ag.vim'
+Bundle 'prettier/vim-prettier'
+"Bundle 'wakatime/vim-wakatime'
 
 filetype on
